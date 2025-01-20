@@ -8,4 +8,11 @@ npm i express
 npm i -D @types/express
 
 npm i -D @swc/core @swc/cli 
+
+npm i prisma @prisma/client
+change package.json(prisma init)
+npm run prisma:init 
+
+
+
 ```
