@@ -22,7 +22,7 @@ model User {
   role      String? // admin  vip  null
   course    String?
   active    Boolean @default(true)
-  aceppNotification Boolean @default(true)
+  acepNotifications Boolean @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
