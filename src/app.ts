@@ -5,13 +5,21 @@ import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 
 const app = express()
+app.use(cookieParser())
+// TODO limitar cors
+// cambiar la URL cuando deployemos
+app.use(cors({
+    origin:'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}))
 
 app.use(express.json())
 app.use(helmet())
 app.use(compression())
-app.use(cookieParser())
 const limiter = rateLimit({
     max: 100,
     windowMs: 1000 * 15 * 60 // 15 minutos
