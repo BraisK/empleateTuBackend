@@ -31,4 +31,5 @@ npm install --save @types/cookie-parser
 npm i cors
 npm i --save-dev @types/cors 
 
+npm i express-validator
 ```
