@@ -1,13 +1,14 @@
 import { Router } from "express";
 import { OfferController } from "../controllers/offer.controller"
 import { RateController } from "../controllers/rate.controller"
+import {isAuthenticate} from "../middlewares/auth.middlewares"
 
 const router = Router()
 
 
 //GET Listar todas las ofertas localhost:3000/api/offerts/?title=react&category=dam
-router.get('/', OfferController.getAll)
-router.get('/:id', OfferController.getById)
+router.get('/', isAuthenticate ,OfferController.getAll)
+router.get('/:id',isAuthenticate, OfferController.getById)
 //POST Añadir una oferta localhost:3000/api/offerts/ {body}
 router.post('/', OfferController.save)
 //DELETE Borrar una oferta localhost:3000/api/offerts/XXXX

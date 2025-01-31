@@ -14,7 +14,7 @@ export class RateController{
     }
     static async getRate(req: Request, res: Response, next: NextFunction){
         try {
-            const id = req.body.id
+            const id = Number(req.params.id)
             const calification = await RateService.getRate(id)
             res.status(200).json(calification)
         } catch (error) {

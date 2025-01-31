@@ -13,12 +13,10 @@ const TOKEN_PASSWORD = process.env.TOKEN_PASSWORD || 'pass'
 export class RateService {
     static async rate(id: number, value:Number) {
         const findOffer = await prisma.offer.findUnique({ where: { id } })
-        //await prisma.rate.
         return findOffer
     }
     static async getRate(idOffer: number) {
-        const rate = await prisma.rate.findUnique({ where: { idOffer} })
-        //await prisma.rate.
+        const rate = await prisma.rate.findMany({ where: { idOffer} })
         return rate
     }
 }
