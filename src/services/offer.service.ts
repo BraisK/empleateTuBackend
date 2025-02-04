@@ -2,29 +2,38 @@ import { Offer, Prisma, PrismaClient, User } from "@prisma/client";
 import { HttpException } from "../exceptions/httpException"
 import bcrypt, { compare } from "bcrypt"
 import jwt from "jsonwebtoken"
+import {prisma} from "../database/database"
 
 // Alta cohexion y bajo acoplamiento
 
 // Usar un patron singleton
 
-const prisma = new PrismaClient()
 const TOKEN_PASSWORD = process.env.TOKEN_PASSWORD || 'pass'
 
 export class OfferService {
     static async getById(id: number) {
         const findOffer = await prisma.offer.findUnique({ where: { id } })
-        if (!findOffer) throw new HttpException(404, 'User not found')
+        if (!findOffer) throw new HttpException(404, 'Offer not found')
         return findOffer
     }
 
-    static async getAll() {
-        const offerts = await prisma.offer.findMany()
-        return offerts
+    static async getAll(title:string = '') {
+        return await prisma.offer.findMany({
+            where: title? {
+                title: {
+                contains: title
+            }
+        } : {} , 
+            orderBy: {
+                createdAt: 'desc'
+            }, take: 100
+        })
     }
-    static async save(offer: Offer) {
+    static async create(idUser: number, offer: Offer) {
         return await prisma.offer.create({
             data: {
-                ...offer
+                ...offer,
+                idUserCreator:idUser
             }
         })
     }
@@ -35,9 +44,13 @@ export class OfferService {
         )
     }
     static async update(id:number, change:Offer ) {
+        const findOffer = prisma.offer.findUnique({where:{id}})
+        if(!findOffer) throw new HttpException(404, 'Offer doesnt exist')
         return await prisma.offer.update( {
             where:{id},
-            data:change
+            data:{
+                ...change
+            }
         }
         )
     }

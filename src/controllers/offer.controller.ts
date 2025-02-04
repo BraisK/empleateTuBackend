@@ -19,11 +19,11 @@ export class OfferController {
             next(error)
         }
     }
-    static async save(req: Request, res: Response, next: NextFunction) {
+    static async create(req: Request, res: Response, next: NextFunction) {
         try {
             const offer = req.body
-            await OfferService.save(offer)
-            res.status(200).json(offer)
+            const newOffer = await OfferService.create(offer)
+            res.status(200).json(newOffer)
         } catch (error) {
             next(error)
         }
@@ -31,8 +31,8 @@ export class OfferController {
     static async delete(req: Request, res: Response, next: NextFunction) {
         try {
             const idOffer = Number(req.params.id)
-            await OfferService.delete(idOffer)
-            res.status(200).json(idOffer)
+            const deleteOffer = await OfferService.delete(idOffer)
+            res.status(200).json(deleteOffer)
         } catch (error) {
             next(error)
         }
@@ -41,8 +41,8 @@ export class OfferController {
         try {
             const offer = Number(req.params.id)
             const change = req.body
-            await OfferService.update(offer, change)
-            res.status(200).json(offer)
+            const updateOffer = await OfferService.update(offer, change)
+            res.status(200).json(updateOffer)
         } catch (error) {
             next(error)
         }

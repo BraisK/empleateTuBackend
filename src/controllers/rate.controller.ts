@@ -4,10 +4,11 @@ import {RateService} from "../services/rate.service"
 export class RateController{
     static async rate(req: Request, res: Response, next: NextFunction){
         try {
-            const id = req.body.id
-            const rate = req.body.rate
-            const calification = await RateService.rate(id, rate)
-            res.status(200).json(calification)
+            const id = Number.parseInt(req.params.id)
+            const {value} = req.body
+            const userId = req.body.user.id
+            const Offer = await RateService.rate(userId, id , value)
+            res.status(200).json({message: 'offer rate successfully'})
         } catch (error) {
             next(error)
         }
