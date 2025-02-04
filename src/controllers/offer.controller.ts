@@ -1,51 +1,67 @@
 import { NextFunction, Request, Response } from "express"
 import { OfferService } from "../services/offer.service"
+import { HttpException } from "@/exceptions/httpException";
 
 export class OfferController {
     static async getById(req: Request, res: Response, next: NextFunction) {
         try {
-            const id = Number(req.params.id)
+            const id = Number.parseInt(req.params.id)
+            if (isNaN(id)) throw new HttpException(400, "Invalid offer ID");
+
+            // pasar a entero
             const offer = await OfferService.getById(id)
             res.status(200).json(offer)
         } catch (error) {
             next(error)
         }
     }
+
     static async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            const offert = await OfferService.getAll()
-            res.status(200).json(offert)
+            const { title } = req.query;
+            const user = await OfferService.getAll(title as string)
+            res.status(200).json(user)
         } catch (error) {
             next(error)
         }
     }
+
     static async create(req: Request, res: Response, next: NextFunction) {
         try {
-            const offer = req.body
-            const newOffer = await OfferService.create(offer)
+            const offerData = req.body
+            const userId = req.body.user.id
+
+            if (!userId) throw new HttpException(400, "User creator ID is required");
+
+
+            const newOffer = await OfferService.create(userId, offerData)
             res.status(200).json(newOffer)
-        } catch (error) {
-            next(error)
-        }
-    }
-    static async delete(req: Request, res: Response, next: NextFunction) {
-        try {
-            const idOffer = Number(req.params.id)
-            const deleteOffer = await OfferService.delete(idOffer)
-            res.status(200).json(deleteOffer)
         } catch (error) {
             next(error)
         }
     }
     static async update(req: Request, res: Response, next: NextFunction) {
         try {
-            const offer = Number(req.params.id)
-            const change = req.body
-            const updateOffer = await OfferService.update(offer, change)
-            res.status(200).json(updateOffer)
+            const offerData = req.body
+            const id = Number.parseInt(req.params.id)
+            if (isNaN(id)) throw new HttpException(400, "Invalid offer ID");
+
+            const updatedOffer = await OfferService.update(id, offerData)
+            res.status(200).json(updatedOffer)
         } catch (error) {
             next(error)
         }
     }
 
+    static async delete(req: Request, res: Response, next: NextFunction) {
+        try {
+            const id = Number.parseInt(req.params.id)
+            if (isNaN(id)) throw new HttpException(400, "Invalid offer ID");
+
+            const deletedOffer = await OfferService.delete(id)
+            res.status(200).json(deletedOffer)
+        } catch (error) {
+            next(error)
+        }
+    }
 }

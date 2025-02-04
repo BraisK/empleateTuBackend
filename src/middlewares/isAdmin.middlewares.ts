@@ -5,7 +5,7 @@ const TOKEN_PASSWORD = process.env.TOKEN_PASSWORD || 'pass'
 // TODO quita el any
 export const isAdmin = (req: Request, res: Response, next: NextFunction): any => {
 
-    const { role } = req.body.user
+    const { role } = req.user
     try {
         if (role === 'admin') {
             next()
