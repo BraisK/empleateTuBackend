@@ -1,4 +1,4 @@
-import { HttpException } from "@/exceptions/httpException"
+import { HttpException } from "../exceptions/httpException"
 import { prisma } from "../database/database"
 // Alta cohexion y bajo acoplamiento
 

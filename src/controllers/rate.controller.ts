@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import {RateService} from "../services/rate.service"
-import { HttpException } from "@/exceptions/httpException";
+import { HttpException } from "../exceptions/httpException";
 
 export class RateController{
     static async rate(req:Request, res:Response, next: NextFunction){

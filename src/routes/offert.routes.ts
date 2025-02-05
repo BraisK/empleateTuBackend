@@ -11,16 +11,16 @@ const router = Router()
 router.get('/', isAuthenticate, isNotNull ,OfferController.getAll)
 router.get('/:id',isAuthenticate, OfferController.getById)
 //POST Añadir una oferta localhost:3000/api/offerts/ {body}
-router.post('/', OfferController.create)
+router.post('/', isAuthenticate, OfferController.create)
 //DELETE Borrar una oferta localhost:3000/api/offerts/XXXX
-router.delete('/:id', OfferController.delete)
+router.delete('/:id',isAuthenticate, OfferController.delete)
 //PUT modificar una oferta localhost:3000/api/offerts/XXXX {body}
-router.put('/:id', OfferController.update)
+router.put('/:id',isAuthenticate, OfferController.update)
 
 // Calificamos una oferta x {body}
-router.post('/:id/rate/', RateController.rate)
+router.post('/:id/rate/', isAuthenticate, RateController.rate)
 // Vemos que calificacion (total) se le ha dado a una oferta
-router.get('/:id/rate/', RateController.getRate) 
-router.get('/:id/myRate/', RateController.getMyRate) 
+router.get('/:id/rate/', isAuthenticate, RateController.getRate) 
+router.get('/:id/myRate/', isAuthenticate, RateController.getMyRate) 
 
 export default router
