@@ -14,7 +14,7 @@ app.use(cookieParser())
 // TODO limitar cors
 // cambiar la URL cuando deployemos
 app.use(cors({
-    origin:'http://localhost:5173',
+    origin:['http://localhost:5173','*'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }))
@@ -31,7 +31,7 @@ app.use(limiter)
 
 app.use('/api/auth',authRouter)
 app.use('/api/users',userRouter)
-app.use('/api/offerts',offertRouter)
+app.use('/api/offers',offertRouter)
 app.use('/api/categories',categoryRouter)
 
 

@@ -29,7 +29,8 @@ export class OfferController {
     static async create(req: Request, res: Response, next: NextFunction) {
         try {
             const offerData = req.body
-            const userId = req.body.user.id
+            const userId = req.user?.id
+
 
             if (!userId) throw new HttpException(400, "User creator ID is required");
 
