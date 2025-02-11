@@ -7,7 +7,7 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction): any =>
 
     const { role } = req.user
     try {
-        if (role === 'admin') {
+        if (role == 'admin') {
             next()
         } else {
             res.status(401).json({ error: 'Access denied, no Admin' })
