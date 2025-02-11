@@ -7,24 +7,30 @@ import { prisma } from "../database/database"
 const TOKEN_PASSWORD = process.env.TOKEN_PASSWORD || 'pass'
 
 export class RateService {
-    static async rate(idUser: number, idOffer: number, value: number) {
-        const findOffer = await prisma.offer.findUnique({ where: { id: idOffer } })
-        if (!findOffer) throw new HttpException(404, 'Offer do not exists')
-        // TODO poner enun middleware de validacion
-        if (value < 0 || value > 5) throw new HttpException(400, 'Rate value must be ')
+    static async rate(idOffer: number, idUser: number, value: number): Promise<void> {
+        // Validar que el rating está dentro del rango permitido
+        if (value < 0 || value > 5) {
+            throw new Error("Rating must be between 0 and 5.");
+        }
+
+        // Verificar si la oferta existe
+        const offer = await prisma.offer.findUnique({ where: { id: idOffer } });
+        if (!offer) {
+            throw new Error("Offer not found.");
+        }
+
+        // Actualizar o crear la calificación
+
+        /*
+        SELECT  AVG(value) AS averageValue, COUNT(value) AS totalCount
+    FROM Rating
+    WHERE offerId = <offerId>;
+        */
         await prisma.rate.upsert({
-            where: {
-                idUser_idOffer: {
-                    idUser, idOffer
-                }
-            },
-            update: {
-                value
-            },
-            create: {
-                idUser, idOffer, value
-            }
-        })
+            where: { idUser_idOffer: { idUser, idOffer } },
+            update: { value },
+            create: { idUser, idOffer, value },
+        });
     }
     static async getRate(idOffer: number) {
         const findOffer = await prisma.offer.findUnique({ where: { id: idOffer } })
@@ -48,7 +54,7 @@ export class RateService {
             where: {
                 idUser_idOffer: { idUser, idOffer }
             },
-            select:{value:true}
+            select: { value: true }
         })
     }
 }
