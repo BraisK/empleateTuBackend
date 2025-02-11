@@ -37,5 +37,7 @@ npm install -g npm-check-updates
 npx npm-check-updates //comprobar
 npx npm-check-updates -u //actualizar
 
+npm i morgan
+
 #/home/brais/.turso/turso db shell empleatetu < ./prisma/migrations/20250204124103_init/migration.sql     
 ```
