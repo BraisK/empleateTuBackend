@@ -25,7 +25,7 @@ app.use(cookieParser())
 //todo limitar cors
 //cambiar la url cuando deploy
 app.use(cors({
-    origin: ['http://localhost:5173','*','https://empleatetufront-md56.onrender.com'],
+    origin: ['http://localhost:5173','https://empleatetufront-md56.onrender.com'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization']
