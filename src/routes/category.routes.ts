@@ -1,6 +1,5 @@
 import { isAuthenticate } from "../middlewares/auth.middlewares";
 import { CategoryController } from "../controllers/category.controller";
-import { OfferController } from "../controllers/offer.controller";
 import { Router } from "express";
 import { isAdmin } from "../middlewares/isAdmin.middlewares";
 import { categoryValidation } from "../middlewares/validators.middlewares";

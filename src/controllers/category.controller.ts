@@ -3,7 +3,7 @@ import { CategoryService } from "../services/category.service";
 import { HttpException } from "../exceptions/httpException";
 
 export class CategoryController {
-    static async getAll(req: Request, res: Response, next: NextFunction){
+    static async getAll(req: Request, res: Response, next: NextFunction) {
         try {
             const categories = await CategoryService.getAll();
             res.status(200).json(categories)
@@ -18,7 +18,7 @@ export class CategoryController {
             if (isNaN(id)) throw new HttpException(400, "Invalid category ID");
 
             const category = await CategoryService.getById(id);
-            res.status(200).json(category)            
+            res.status(200).json(category)
         } catch (error) {
             next(error);
         }

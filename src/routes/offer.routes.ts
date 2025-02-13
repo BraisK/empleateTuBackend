@@ -1,12 +1,13 @@
 import { Router } from "express";
-import { OfferController } from "../controllers/offer.controller"
-import { RateController } from "../controllers/rate.controller"
-import {isAuthenticate} from "../middlewares/auth.middlewares"
-import { offerValidation, rateValidation } from "../middlewares/validators.middlewares";
-import { isAdmin } from "../middlewares/isAdmin.middlewares";
+import { loginValidation, offerValidation, rateValidation, registerValidation } from "../middlewares/validators.middlewares";
 import { ValidationMiddleware } from "../middlewares/validation.middlewares";
-
+import { OfferController } from "../controllers/offer.controller";
+import { RateController } from "../controllers/rate.controller";
+import { isAuthenticate } from "../middlewares/auth.middlewares";
+import { isAdmin } from "../middlewares/isAdmin.middlewares";
 const router = Router()
+
+//API REST FULL
 
 
 //GET Listar todas las ofertas localhost:3000/api/offers/?title=react&category=dam
@@ -20,10 +21,11 @@ router.delete('/:id',isAuthenticate,isAdmin, OfferController.delete)
 //PUT modificar una oferta localhost:3000/api/offers/XXXX  {body}
 router.put('/:id',isAuthenticate,isAdmin, offerValidation, ValidationMiddleware, OfferController.update)   
 
-// Calificamos una oferta x {body}
-router.post('/:id/rate/', isAuthenticate,rateValidation,  RateController.rate)
-// Vemos que calificacion (total) se le ha dado a una oferta
-router.get('/:id/rate/', isAuthenticate, RateController.getRate) 
-router.get('/:id/myRate/', isAuthenticate, RateController.getMyRate) 
+// Calificamos una oferta x   {body}
+router.post('/:id/rate/',isAuthenticate, rateValidation, RateController.rate)  
+// Vemos que calificación (total) se le ha data a una oferta X
+router.get('/:id/rate/', isAuthenticate, RateController.getRate)
+
+
 
 export default router
