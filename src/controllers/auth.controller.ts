@@ -1,5 +1,5 @@
 import { AuthService } from "../services/auth.service";
-import { Response, Request, NextFunction } from 'express'
+import e, { Response, Request, NextFunction } from 'express'
 
 export class AuthController {
     static async register(req: Request, res: Response, next: NextFunction) {
@@ -31,4 +31,14 @@ export class AuthController {
             next(error)
         }
     }
+    static async logout(req: Request, res: Response, next: NextFunction) {
+        try {
+            res.clearCookie('token')
+            res.status(204).json({ message: 'Logout successfully' })
+        } catch (error) {
+            next(error)
+        }
+
+    }
+
 }
