@@ -16,19 +16,21 @@ export class AuthController {
 
     static async login(req: Request, res: Response, next: NextFunction) {
         try {
-            const userData = req.body
+            const userData = req.body //vienen por post en el cuerpo de la peticion
+            console.log(userData)
             const token = await AuthService.login(userData.email, userData.password)
-            //TODO inyectar cookie al cliente
+            //TODO devolver una cookie
             res.cookie('token', token, {
-                maxAge: 60 * 60 * 1000 * 3, // 3 horas de caducidad
-                httpOnly: true, // no se puede accerder mediante js
-                secure: false, // solo se envia si usas https
-                sameSite: 'strict', // Evita ataques CSRF
-
+                maxAge: 60 * 60 * 1000,
+                httpOnly: true, // no accesible por js
+                secure: false, //solo se activa si usas hhtps
+                sameSite: 'strict' //solo valido si = sitio (= dominio back+front)(seguro csrf)
             })
             res.status(201).json({ message: 'Login successfully:', token })
+
         } catch (error) {
             next(error)
+            console.log('Noooo')
         }
     }
     static async logout(req: Request, res: Response, next: NextFunction) {
